@@ -1,6 +1,7 @@
 __all__ = ["embed"]
 
 import json
+import random
 from typing import List, Dict
 
 try:
@@ -36,12 +37,15 @@ def embed(
         assert all(isinstance(name, str) and name.isidentifier() for name in cell_names)
         filter_code = f'({" || ".join(cell_names)})'
 
-    html = f"""<div id="observablehq-883ab4d6"></div>
+    # TODO: stop using generated div ID, it makes notebook output unstable
+    div_id = f"observable-embed-div-{str(random.random())[2:]}"
+
+    html = f"""<div id="{div_id}"></div>
 <script type="module">
 const inputs = {jsonified_inputs}
 import {{Runtime, Inspector}} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
 import define from "https://api.observablehq.com/{slug}.js?v=3";
-const inspect = Inspector.into("#observablehq-883ab4d6");
+const inspect = Inspector.into("#{div_id}");
 const main = (new Runtime).module(define, name => {filter_code} && inspect());
 for (let name of Object.keys(inputs)) {{
   main.redefine(name, inputs[name]);
