@@ -1,0 +1,9 @@
+graft src
+include *.md LICENSE
+
+exclude .flake8 noxfile.py .coveragerc
+prune tests
+prune scripts
+
+global-exclude *.py[cod]
+global-exclude __pycache__
