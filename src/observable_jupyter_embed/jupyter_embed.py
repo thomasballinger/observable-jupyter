@@ -12,30 +12,25 @@ except ImportError:
 
 
 def embed(
-    slug: str, cell_names: List[str] = None, inputs: Dict = None, use_iframe=True
+    slug: str, cells: List[str] = None, inputs: Dict = None, use_iframe=True
 ) -> None:
     """Embeds a set of cells or an entire Observable notebook.
     """
+    if cells and inputs and set(cells) & set(inputs):
+        raise ValueError(
+            f"specify cell names as output or input, not both: {set(cells) & set(inputs)}"
+        )
 
-    if inputs is None:
-        inputs = {}
-
-    # TODO: check formatting on slug, allow full url?
-    # TODO: do the global state checks (or the mutation observers?) to detect that we're re-running this.
-    # TODO: run in iframe
-    # TODO: include default Observable styles when an iframe is used?
-
-    if cell_names and set(cell_names) & set(inputs):
-        raise ValueError("specify cell names as output or input, not both")
-
-    jsonified_inputs = jsonify(inputs)
+    jsonified_inputs = jsonify(inputs or {})
 
     # a JavaScript expression that evaluates to true for cells that should be rendered
-    if cell_names is None:
+    if cells is None:
         filter_code = f"true"
     else:
-        assert all(isinstance(name, str) and name.isidentifier() for name in cell_names)
-        filter_code = f"""({" || ".join(f'name === "{cell_name}"' for cell_name in cell_names)})"""
+        assert all(isinstance(name, str) and name.isidentifier() for name in cells)
+        filter_code = (
+            f"""({" || ".join(f'name === "{cell_name}"' for cell_name in cells)})"""
+        )
 
     # TODO: stop using generated div ID, it makes notebook output unstable
     div_id = f"observable-embed-div-{str(random.random())[2:]}"
@@ -50,14 +45,26 @@ const main = (new Runtime).module(define, name => {filter_code} && inspect());
 for (let name of Object.keys(inputs)) {{
   main.redefine(name, inputs[name]);
 }}
-</script>
+</script>"""
 
-"""
+    iframe_src = f"""<!DOCTYPE html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3/dist/inspector.css">
+{html}"""
+
+    # To sidestep the parsing that Jupyter does of script tags,
+    # tack on the script tag in JavaScript.
+    assert iframe_src.endswith("</script>")
+    iframe_wrapper = f"""<iframe id="{div_id}" sandbox="allow-scripts" style="resize: both; overflow: auto;"></iframe>
+<script>
+iframeSrc = `{iframe_src[:-3]}` + 'pt>';
+document.getElementById('{div_id}').srcdoc = iframeSrc
+</script>
+    """
 
     if not use_iframe:
         display(HTML(html))
     else:
-        raise NotImplementedError()
+        display(HTML(iframe_wrapper))
 
 
 def jsonify(obj):
