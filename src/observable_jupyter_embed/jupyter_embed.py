@@ -35,7 +35,7 @@ def embed(
         filter_code = f"true"
     else:
         assert all(isinstance(name, str) and name.isidentifier() for name in cell_names)
-        filter_code = f'({" || ".join(cell_names)})'
+        filter_code = f"""({" || ".join(f'name === "{cell_name}"' for cell_name in cell_names)})"""
 
     # TODO: stop using generated div ID, it makes notebook output unstable
     div_id = f"observable-embed-div-{str(random.random())[2:]}"
