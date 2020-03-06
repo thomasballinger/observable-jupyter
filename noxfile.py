@@ -3,7 +3,7 @@ from pathlib import Path
 
 nox.options.sessions = ["tests", "lint", "build"]
 
-python = ["3.7"]
+python = ["3.6", "3.7", "3.8"]
 
 
 lint_dependencies = [
@@ -13,7 +13,6 @@ lint_dependencies = [
     "flake8",
     "flake8-bugbear",
     "mypy",
-    "check-manifest",
 ]
 
 
@@ -32,6 +31,12 @@ def tests(session):
     session.notify("cover")
 
 
+@nox.session(python="3.7")
+def jupyter_test(session):
+    """Open the example Jupyter notebook with a dev install of this module"""
+    session.install("-e", ".", "Jupyter")
+    session.run("Jupyter", "notebook", "example.ipynb")
+
 @nox.session
 def cover(session):
     """Coverage analysis"""
@@ -48,10 +53,6 @@ def lint(session):
     session.run("flake8", *files)
     session.run("mypy", *files)
     session.run("python", "setup.py", "check", "--metadata", "--strict")
-    if "--skip_manifest_check" in session.posargs:
-        pass
-    else:
-        session.run("check-manifest")
 
 
 @nox.session(python="3.7")
@@ -60,6 +61,8 @@ def build(session):
     session.install("wheel")
     session.install("twine")
     session.run("rm", "-rf", "dist", "build", external=True)
+    session.run("yarn", "--cwd", "js")
+    session.run("yarn", "--cwd", "js", "build", external=True)
     session.run("python", "setup.py", "--quiet", "sdist", "bdist_wheel")
 
 

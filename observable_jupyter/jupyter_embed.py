@@ -1,8 +1,17 @@
 __all__ = ["embed"]
 
+
 import json
 import random
+import pkg_resources
 from typing import List, Dict
+
+iframe_bundle_fname = pkg_resources.resource_filename(
+    "observable_jupyter", "iframe_bundle.js"
+)
+wrapper_bundle_fname = pkg_resources.resource_filename(
+    "observable_jupyter", "iframe_bundle.js"
+)
 
 try:
     from IPython.display import display, HTML
@@ -33,38 +42,69 @@ def embed(
         )
 
     # TODO: stop using generated div ID, it makes notebook output unstable
-    div_id = f"observable-embed-div-{str(random.random())[2:]}"
+    iframe_id = f"observable-embed-div-{str(random.random())[2:]}"
 
-    html = f"""<div id="{div_id}"></div>
+    html = f"""<div id="{iframe_id}"></div>
 <script type="module">
 const inputs = {jsonified_inputs}
 import {{Runtime, Inspector}} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
 import define from "https://api.observablehq.com/{slug}.js?v=3";
-const inspect = Inspector.into("#{div_id}");
+const inspect = Inspector.into("#{iframe_id}");
 const main = (new Runtime).module(define, name => {filter_code} && inspect());
 for (let name of Object.keys(inputs)) {{
   main.redefine(name, inputs[name]);
 }}
 </script>"""
 
+    iframe_bundle_src = open(iframe_bundle_fname).read()
+    if "`" in iframe_bundle_src:
+        raise ValueError("Whoops, no backticks in JavaScript bundle pls")
+
     iframe_src = f"""<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3/dist/inspector.css">
-{html}"""
-
-    # To sidestep the parsing that Jupyter does of script tags,
-    # tack on the script tag in JavaScript.
-    assert iframe_src.endswith("</script>")
-    iframe_wrapper = f"""<iframe id="{div_id}" sandbox="allow-scripts" style="resize: both; overflow: auto;"></iframe>
 <script>
-iframeSrc = `{iframe_src[:-3]}` + 'pt>';
-document.getElementById('{div_id}').srcdoc = iframeSrc
+{iframe_bundle_src}
+</script>
+{html}
+<script>
+ObservableJupyter.monitor("{iframe_id}")
+</script>
+"""
+
+    # To sidestep the (apparently buggy?) parsing that Jupyter does
+    # of script tags in template string, add the script tags in JavaScript.
+    iframe_src_script_escaped = iframe_src.replace("<script>", "OPENSCRIPT").replace(
+        "</script>", "CLOSESCRIPT"
+    )
+    iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto;" frameBorder="0"></iframe>
+<script>
+iframeSrc = `{iframe_src_script_escaped}`.replace(/OPENSCRIPT/gi, '<sc' + 'ript>').replace(/CLOSESCRIPT/gi, '</sc' + 'ript>')
+document.getElementById('{iframe_id}').srcdoc = iframeSrc;
+
+(() => {{
+  function onMessage(msg) {{
+    console.log('got message', msg.data);
+    if (msg.data.type === 'iframeSize') {{
+      var el = document.getElementById('{iframe_id}');
+      if (el) {{
+        console.log('setting dimensions of', el.id, 'to', msg.data.width, msg.data.height);
+        el.width = msg.data.width;
+        el.height = msg.data.height;
+      }} else {{
+        removeEventListener('message', onMessage);
+      }}
+    }}
+  }};
+
+  window.addEventListener('message', onMessage);
+}})();
 </script>
     """
 
-    if not use_iframe:
-        display(HTML(html))
-    else:
+    if use_iframe:
         display(HTML(iframe_wrapper))
+    else:
+        display(HTML(html))
 
 
 def jsonify(obj):

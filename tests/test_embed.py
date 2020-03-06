@@ -1,4 +1,4 @@
-from observable_jupyter_embed import embed
+from observable_jupyter import embed
 
 
 def test_observable_jupyter_embed():

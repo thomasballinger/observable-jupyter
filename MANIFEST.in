@@ -1,9 +1,8 @@
-graft src
+graft observable_jupyter
 include *.md LICENSE
 
-exclude .flake8 noxfile.py .coveragerc
-prune tests
-prune scripts
-
+include *.ipynb
+include *.py
+exclude noxfile.py
 global-exclude *.py[cod]
 global-exclude __pycache__

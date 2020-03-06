@@ -20,16 +20,13 @@ setup(
     license="ISC license",
     long_description=readme,
     long_description_content_type="text/markdown",
-    package_data={"observable_jupyter_embed": ["py.typed"]},
+    package_data={"": ["js/bundle.js"]},
     include_package_data=True,
-    keywords="observable_jupyter_embed",
-    name="observable_jupyter_embed",
-    package_dir={"": "src"},
-    packages=find_packages(
-        include=["src/observable_jupyter_embed", "src/observable_jupyter_embed.*"]
-    ),
+    keywords="observable_jupyter",
+    name="observable_jupyter",
+    packages=find_packages(include=["observable_jupyter", "observable_jupyter.*"]),
     setup_requires=[],
-    url="https://github.com/thomasballinger/observable_jupyter_embed",
+    url="https://github.com/observablehq/observable_jupyter",
     version="0.1.0",
     zip_safe=False,
 )

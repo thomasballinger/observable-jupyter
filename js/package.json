@@ -1,0 +1,21 @@
+{
+  "name": "observable_jupyter",
+  "version": "0.1.0",
+  "description": "Embedding Observable in an iframe for Jupyter",
+  "main": "index.js",
+  "repository": "https://github.com/observablehq/observable-jupyter-embed",
+  "author": "Thomas Ballinger",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "esm": "^3.2.25",
+    "prettier": "^1.19.1",
+    "rollup": "^1.32.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.13.2"
+  },
+  "scripts": {
+    "build": "rollup index.js --file ../observable_jupyter/iframe_bundle.js --format iife --name ObservableJupyter",
+    "test": "tape -r esm 'test/**/*-test.js' | tap-spec"
+  }
+}

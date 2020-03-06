@@ -1,3 +1,14 @@
+## Specific to this project
+
+observable_jupyter/iframe_bundle.js
+
+
+## General JavaScript stuff
+node_modules
+
+
+## General Python stuff
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
