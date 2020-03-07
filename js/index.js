@@ -3,7 +3,6 @@ const MONITOR_INTERVAL = 1000;
 class DocumentBodyDimensionsMonitor {
   constructor(iframeId) {
     this.iframeId = iframeId;
-    this.lastWidth = -1;
     this.lastHeight = -1;
     this.timer = undefined;
 
@@ -29,10 +28,8 @@ class DocumentBodyDimensionsMonitor {
   }
 
   check() {
-    const width = document.body.parentElement.clientWidth;
-    const height = document.body.parentElement.clientHeight;
-    if (width !== this.lastWidth || height !== this.lastHeight) {
-      this.lastWidth = width;
+    const height = document.body.clientHeight;
+    if (height !== this.lastHeight) {
       this.lastHeight = height;
       this.report();
     }
@@ -42,7 +39,6 @@ class DocumentBodyDimensionsMonitor {
     window.parent.postMessage(
       {
         type: "iframeSize",
-        width: this.lastWidth,
         height: this.lastHeight,
         iframeId: this.iframeId
       },

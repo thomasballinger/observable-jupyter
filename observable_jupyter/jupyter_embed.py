@@ -21,7 +21,10 @@ except ImportError:
 
 
 def embed(
-    slug: str, cells: List[str] = None, inputs: Dict = None, use_iframe=True
+    slug: str,
+    cells: List[str] = None,
+    inputs: Dict = None,
+    dangerously_forgo_iframe=False,
 ) -> None:
     """Embeds a set of cells or an entire Observable notebook.
     """
@@ -56,12 +59,21 @@ for (let name of Object.keys(inputs)) {{
 }}
 </script>"""
 
+    if dangerously_forgo_iframe:
+        display(HTML(html))
+        return
+
     iframe_bundle_src = open(iframe_bundle_fname).read()
     if "`" in iframe_bundle_src:
         raise ValueError("Whoops, no backticks in JavaScript bundle pls")
 
     iframe_src = f"""<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3/dist/inspector.css">
+<style>
+body {{
+  margin: 0;
+}}
+</style>
 <script>
 {iframe_bundle_src}
 </script>
@@ -72,23 +84,20 @@ ObservableJupyter.monitor("{iframe_id}")
 """
 
     # To sidestep the (apparently buggy?) parsing that Jupyter does
-    # of script tags in template string, add the script tags in JavaScript.
+    # of script tags in template strings, add the script tags in JavaScript.
     iframe_src_script_escaped = iframe_src.replace("<script>", "OPENSCRIPT").replace(
         "</script>", "CLOSESCRIPT"
     )
-    iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto;" frameBorder="0"></iframe>
+    iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto; min-width: 100%; width: 0px;" frameBorder="0"></iframe>
 <script>
 iframeSrc = `{iframe_src_script_escaped}`.replace(/OPENSCRIPT/gi, '<sc' + 'ript>').replace(/CLOSESCRIPT/gi, '</sc' + 'ript>')
 document.getElementById('{iframe_id}').srcdoc = iframeSrc;
 
 (() => {{
   function onMessage(msg) {{
-    console.log('got message', msg.data);
-    if (msg.data.type === 'iframeSize') {{
+    if (msg.data.type === 'iframeSize' && msg.data.iframeId === '{iframe_id}') {{
       var el = document.getElementById('{iframe_id}');
       if (el) {{
-        console.log('setting dimensions of', el.id, 'to', msg.data.width, msg.data.height);
-        el.width = msg.data.width;
         el.height = msg.data.height;
       }} else {{
         removeEventListener('message', onMessage);
@@ -101,10 +110,7 @@ document.getElementById('{iframe_id}').srcdoc = iframeSrc;
 </script>
     """
 
-    if use_iframe:
-        display(HTML(iframe_wrapper))
-    else:
-        display(HTML(html))
+    display(HTML(iframe_wrapper))
 
 
 def jsonify(obj):
