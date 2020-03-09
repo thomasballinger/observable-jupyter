@@ -37,6 +37,7 @@ def jupyter_test(session):
     session.install("-e", ".", "Jupyter")
     session.run("Jupyter", "notebook", "example.ipynb")
 
+
 @nox.session
 def cover(session):
     """Coverage analysis"""

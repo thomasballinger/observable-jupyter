@@ -1,7 +1,10 @@
 ## Specific to this project
 
 observable_jupyter/iframe_bundle.js
+observable_jupyter/wrapper_bundle.js
 
+## General stuff
+.DS_Store
 
 ## General JavaScript stuff
 node_modules
