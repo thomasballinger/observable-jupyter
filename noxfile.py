@@ -22,13 +22,19 @@ def tests(session):
     tests = session.posargs or ["tests"]
     session.run(
         "pytest",
-        "--cov=observable_jupyter_embed",
+        "--cov=observable_jupyter",
         "--cov-config",
         ".coveragerc",
         "--cov-report=",
         *tests
     )
     session.notify("cover")
+
+
+@nox.session()
+def js_tests(session):
+    session.run("yarn", "--cwd", "js")
+    session.run("yarn", "--cwd", "js", "test", external=True)
 
 
 @nox.session(python="3.7")

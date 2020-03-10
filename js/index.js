@@ -1,6 +1,6 @@
 const MONITOR_INTERVAL = 1000;
 
-class DocumentBodyDimensionsMonitor {
+export class DocumentBodyDimensionsMonitor {
   constructor(module) {
     this.lastHeight = -1;
     this.timer = undefined;
@@ -16,7 +16,7 @@ class DocumentBodyDimensionsMonitor {
       if (window.parent !== event.source) {
         return;
       }
-      if (msg.data.type === "dispose") {
+      if (msg.data.type === "cleanup") {
         this.cleanup();
       }
     };
@@ -54,6 +54,8 @@ class DocumentBodyDimensionsMonitor {
     );
   }
 
+  /* Never used in the normal iframe embedding since everything stops
+   * when the iframe gets unmounted */
   cleanup() {
     this.stop();
     this.main.dispose();

@@ -15,6 +15,7 @@ iframe_bundle_src = open(iframe_bundle_fname).read()
 wrapper_bundle_fname = pkg_resources.resource_filename(
     "observable_jupyter", "wrapper_bundle.js"
 )
+wrapper_bundle_src = open(wrapper_bundle_fname).read()
 
 escapes = {v: k for k, v in entities.html5.items()}
 
@@ -44,6 +45,7 @@ def embed(slug: str, cells: List[str] = None, inputs: Dict = None,) -> None:
     if cells:
         assert all(isinstance(name, str) and name.isidentifier() for name in cells)
 
+    # Brackets in Python f-strings are escaped by using two brackets: { -> {{, } -> }}
     iframe_src = f"""<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3/dist/inspector.css">
 <style>
@@ -74,31 +76,12 @@ ObservableJupyterIframe.monitor(main)
     )
     iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto; min-width: 100%; width: 0px;" frameBorder="0"></iframe>
 <script>
+{wrapper_bundle_src}
+</script>
+<script>
 iframeSrc = `{iframe_src_script_escaped}`.replace(/OPENSCRIPT/gi, '<sc' + 'ript>').replace(/CLOSESCRIPT/gi, '</sc' + 'ript>')
 document.getElementById('{iframe_id}').srcdoc = iframeSrc;
-
-function getFrameByEvent(event) {{
-  return [...document.getElementsByTagName('iframe')].filter(iframe => {{
-    return iframe.contentWindow === event.source;
-  }})[0];
-}}
-
-(() => {{
-  const thisIframe = document.getElementById('{iframe_id}');
-
-  function onMessage(msg) {{
-    if (!thisIframe) {{
-      console.log('removing event listener, iframe is gone')
-      removeEventListener('message', onMessage);
-    }}
-    const senderIframe = getFrameByEvent(msg);
-    if (msg.data.type === 'iframeSize' && senderIframe === thisIframe) {{
-      thisIframe.height = msg.data.height;
-    }}
-  }};
-
-  window.addEventListener('message', onMessage);
-}})();
+ObservableJupyterWrapper.listenToSize(document.getElementById('{iframe_id}'));
 </script>
     """
 
