@@ -1,4 +1,4 @@
-const MONITOR_INTERVAL = 1000;
+const MONITOR_INTERVAL = 200;
 
 export class DocumentBodyDimensionsMonitor {
   constructor(module) {

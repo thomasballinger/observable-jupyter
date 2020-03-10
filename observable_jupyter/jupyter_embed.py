@@ -56,7 +56,7 @@ body {{
 <script>
 {iframe_bundle_src}
 </script>
-<div style="display: inline-block;"></div>
+<div style="overflow: auto;"></div>
 <script type="module">
 const inputs = {jsonified_inputs};
 const slug = '{slug}';

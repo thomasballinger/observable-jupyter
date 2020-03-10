@@ -8,6 +8,7 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "@observablehq/runtime": "^4.7.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "esm": "^3.2.25",
     "prettier": "^1.19.1",
