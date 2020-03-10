@@ -77,6 +77,7 @@ ObservableJupyterIframe.monitor(main)
         iframe_src.replace("<script>", "OPENSCRIPT").replace("</script>", "CLOSESCRIPT")
     )
     iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto; min-width: 100%; width: 0px;" frameBorder="0"></iframe>
+<span><a href="https://observablehq.com/{slug}">Edit with Observable</a></span>
 <script>
 {wrapper_bundle_src}
 </script>
