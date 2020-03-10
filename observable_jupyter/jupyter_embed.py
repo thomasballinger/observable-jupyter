@@ -43,7 +43,9 @@ def embed(slug: str, cells: List[str] = None, inputs: Dict = None,) -> None:
     jsonified_inputs = jsonify(inputs or {})
 
     if cells:
-        assert all(isinstance(name, str) and name.isidentifier() for name in cells)
+        for cell in cells:
+            if not isinstance(cell, str):
+                raise ValueError("Cell names should be strings.")
 
     # Brackets in Python f-strings are escaped by using two brackets: { -> {{, } -> }}
     iframe_src = f"""<!DOCTYPE html>

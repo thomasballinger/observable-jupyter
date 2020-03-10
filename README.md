@@ -3,26 +3,32 @@
 
 <a href="https://pypi.python.org/pypi/observable_jupyter">
 <img src="https://img.shields.io/pypi/v/observable_jupyter.svg" /></a>
-<a href="https://travis-ci.org/observablehq/observable_jupyter"><img src="https://travis-ci.org/thomasballinger/observable_jupyter.svg?branch=master" /></a>
 </p>
-Embed Observable cells hosted on observablehq.com into Jupyter notebooks.
+Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter notebooks.
 
+To install the library, import the embed function, and embed the "graphic" cell in [this notebook](https://observablehq.com/@mbostock/epicyclic-gearing):
 ~~~py
 !pip install observable_jupyter
 from observable_jupyter import embed
-embed('d/e4d7b23b27074e16', inputs={'a': [1,2,3], 'b': 4})
+embed('@mbostock/epicyclic-gearing', cells=['graphic'], inputs={'speed': 0.2})
 ~~~
 
-Render the entire notebook Observable notebook:
+The simplest way to use `embed()` is to render an entire Observable notebook:
 ~~~py
-embed('d/e4d7b23b27074e16')
+embed('@d3/gallery')
 ~~~
 
-See [this Observable notebook](https://observablehq.com/d/e91855e8f5b3b7) for more info.
+You may want to swap in your own data into a D3 chart:
+~~~py
+import this
+text = ''.join(this.d.get(l, l) for l in this.s)
+embed('@d3/word-cloud', cells=['chart'], inputs={'source': text})
+~~~
 
-# Credits
-This package was created with Cookiecutter and the `cs01/cookiecutter-pypackage` project template.
-
-[Cookiecutter](https://github.com/audreyr/cookiecutter)
-
-[cs01/cookiecutter-pypackage](https://github.com/cs01/cookiecutter-pypackage)
+With multiple cells, you can embed interactive charts!
+~~~py
+embed(
+    '@observablehq/visualize-a-data-frame-with-observable-in-jupyter,
+    cells=['vegaPetalsWidget', 'viewof sepalLengthLimits', 'viewof sepalWidthLimits'],
+)
+~~~

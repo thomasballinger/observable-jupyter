@@ -38,10 +38,17 @@ def js_tests(session):
 
 
 @nox.session(python="3.7")
-def jupyter_test(session):
+def edit_example(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "Jupyter")
     session.run("Jupyter", "notebook", "example.ipynb")
+
+
+@nox.session(python="3.7")
+def jupyter_test(session):
+    """Open the example Jupyter notebook with a dev install of this module"""
+    session.install("-e", ".", "Jupyter")
+    session.run("Jupyter", "notebook", "test_notebook.ipynb")
 
 
 @nox.session
