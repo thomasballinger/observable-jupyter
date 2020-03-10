@@ -41,7 +41,7 @@ def js_tests(session):
 def edit_example(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "Jupyter")
-    session.run("Jupyter", "notebook", "example.ipynb")
+    session.run("Jupyter", "notebook", "Observable_Embed_Example.ipynb")
 
 
 @nox.session(python="3.7")
