@@ -7,11 +7,12 @@
 
 Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter notebooks.
 
+[View demo notebook on Colab](https://colab.research.google.com/drive/1Ca-IcVdwYdcKc3-RwRjo8UDfEYHpAfov)
 
-These ways to view an example notebook won't work until we make this repository public:
+The following ways to view the demo notebook won't work until we make this repository public:
 * [Read example on nbviewer](https://nbviewer.jupyter.org/github/observablehq/observable_jupyter/blob/master/Observable_Embed_Example.ipynb)
-* [Run example notebook on Binder]
-* [Run example notebook on Colab]
+* [Run example notebook on Binder]()
+* [Run example notebook on Colab](current notebook on collab is just a copy, not the one under version control here)
 
 To install the library, import the embed function, and embed the "graphic" cell from [this notebook](https://observablehq.com/@mbostock/epicyclic-gearing):
 ~~~py
