@@ -16,6 +16,9 @@ wrapper_bundle_fname = pkg_resources.resource_filename(
     "observable_jupyter", "wrapper_bundle.js"
 )
 wrapper_bundle_src = open(wrapper_bundle_fname).read()
+logo_fname = pkg_resources.resource_filename("observable_jupyter", "logo.svg")
+logo_src = open(logo_fname).read()
+
 
 escapes = {v: k for k, v in entities.html5.items()}
 
@@ -32,7 +35,9 @@ except ImportError:
     raise
 
 
-def embed(slug: str, cells: List[str] = None, inputs: Dict = None,) -> None:
+def embed(
+    slug: str, cells: List[str] = None, inputs: Dict = None, display_logo=True
+) -> None:
     """Embeds a set of cells or an entire Observable notebook.
     """
     if cells and inputs and set(cells) & set(inputs):
@@ -41,6 +46,8 @@ def embed(slug: str, cells: List[str] = None, inputs: Dict = None,) -> None:
         )
 
     jsonified_inputs = jsonify(inputs or {})
+
+    pretty_slug = "embedded notebook" if slug.startswith("d/") else slug
 
     if cells:
         for cell in cells:
@@ -68,6 +75,51 @@ const main = ObservableJupyterIframe.embed(slug, into, cells, inputs);
 ObservableJupyterIframe.monitor(main)
 </script>
 """
+    link_back = (
+        f"""
+<style>
+.observable-logo {{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 5px;
+  margin-right: 1px;
+}}
+.observable-logo svg {{
+  opacity: 50%;
+  transition: opacity 0.2s;
+}}
+.observable-logo a {{
+  opacity: 0%;
+  transition: opacity 0.2s;
+  margin-right: .3em;
+  color: inherit;
+}}
+.observable-logo:hover a {{
+  opacity: 100%;
+  color: inherit;
+}}
+.observable-logo:hover svg {{
+  opacity: 100%;
+}}
+.observable-logo:hover ~ iframe {{
+    outline: solid 1px #E0E0E0;
+    box-shadow: 0 0 3px;
+    transition: box-shadow 0.2s;
+}}
+.observable-logo ~ iframe {{
+    outline: none;
+}}
+
+</style>
+<div class="observable-logo" style="display: flex; align-items: stretch; justify-content: flex-end;">
+<a href="https://observablehq.com/{slug}" target="_blank" style="text-decoration: none;">Edit {pretty_slug} on Observable</a>
+{logo_src}
+</div>
+"""
+        if display_logo
+        else ""
+    )
 
     iframe_id = f"observable-embed-div-{str(random.random())[2:]}"
 
@@ -76,8 +128,10 @@ ObservableJupyterIframe.monitor(main)
     iframe_src_script_escaped = escape(
         iframe_src.replace("<script>", "OPENSCRIPT").replace("</script>", "CLOSESCRIPT")
     )
-    iframe_wrapper = f"""<iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto; min-width: 100%; width: 0px;" frameBorder="0"></iframe>
-<span><a href="https://observablehq.com/{slug}">Edit with Observable</a></span>
+    iframe_wrapper = f"""<div style="text-align: right; position: relative">
+    {link_back}
+    <iframe id="{iframe_id}" sandbox="allow-scripts" style="overflow: auto; min-width: 100%; width: 0px;" frameBorder="0"></iframe>
+</div>
 <script>
 {wrapper_bundle_src}
 </script>
