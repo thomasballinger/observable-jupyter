@@ -71,8 +71,13 @@ const inputs = {jsonified_inputs};
 const slug = '{slug}';
 const into = document.getElementsByTagName('div')[0];
 const cells = {repr(cells) if cells else "undefined"}
-const main = ObservableJupyterIframe.embed(slug, into, cells, inputs);
-ObservableJupyterIframe.monitor(main)
+ObservableJupyterIframe.embed(slug, into, cells, inputs).then(m => {{window.main = m;}});
+ObservableJupyterIframe.monitor()
+window.addEventListener('unload', () => {{
+  if (typeof window.main !== 'undefined') {{
+      window.main._runtime.dispose();
+  }}
+}});
 </script>
 """
     link_back = (
