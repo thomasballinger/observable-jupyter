@@ -57,15 +57,6 @@ export class DocumentBodyDimensionsPollingMonitor {
       this.check();
       this.monitoring = setTimeout(this.checkAndSchedule, MONITOR_INTERVAL);
     };
-
-    this.onMessage = event => {
-      if (window.parent !== event.source) {
-        return;
-      }
-      if (msg.data.type === "cleanup") {
-        this.cleanup();
-      }
-    };
   }
 
   start() {
@@ -88,13 +79,6 @@ export class DocumentBodyDimensionsPollingMonitor {
       this.lastHeight = height;
       postHeight(this.lastHeight);
     }
-  }
-
-  /* Never used in the normal iframe embedding since everything stops
-   * when the iframe gets unmounted */
-  cleanup() {
-    this.stop();
-    this.main.dispose();
   }
 }
 
