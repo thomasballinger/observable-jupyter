@@ -1,5 +1,28 @@
 const MONITOR_INTERVAL = 200;
 
+export class DocumentBodyDimensionsMutationObserverMonitor {
+  constructor() {
+    this.lastHeight = -1;
+
+    this.onMutation = entries => {
+      const height = document.body.clientHeight;
+      if (height !== this.lastHeight) {
+        this.lastHeight = height;
+        postHeight(this.lastHeight);
+      }
+    };
+  }
+
+  start() {
+    this.observer = new MutationObserver(this.onMutation);
+    this.observer.observe(document.body, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
+  }
+}
+
 export class DocumentBodyDimensionsResizeObserverMonitor {
   constructor() {
     if (typeof window.ResizeObserver === "undefined") {
@@ -89,7 +112,7 @@ export const monitor = () => {
   if (typeof window.ResizeObserver !== "undefined") {
     new DocumentBodyDimensionsResizeObserverMonitor().start();
   } else {
-    new DocumentBodyDimensionsPollingMonitor().start();
+    new DocumentBodyDimensionsMutationObserverMonitor().start();
   }
 };
 
