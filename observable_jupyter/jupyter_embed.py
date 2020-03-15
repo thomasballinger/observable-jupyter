@@ -117,7 +117,7 @@ window.addEventListener('unload', () => {{
 }}
 
 </style>
-<div class="observable-logo" style="display: flex; align-items: stretch; justify-content: flex-end;">
+<div class="observable-logo" style="display: flex; align-items: center; justify-content: flex-end;">
 <a href="https://observablehq.com/{slug}" target="_blank" style="text-decoration: none;">Edit {pretty_slug} on Observable</a>
 {logo_src}
 </div>
