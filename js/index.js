@@ -1,10 +1,33 @@
 const MONITOR_INTERVAL = 200;
 
-export class DocumentBodyDimensionsMonitor {
-  constructor(module) {
+export class DocumentBodyDimensionsResizeObserverMonitor {
+  constructor() {
+    if (typeof window.ResizeObserver === "undefined") {
+      throw Error("ResizeObserver is not supported");
+    }
+    this.lastHeight = -1;
+
+    this.onResize = entries => {
+      for (let entry of entries) {
+        const height = entry.contentRect.height;
+        if (height !== this.lastHeight) {
+          this.lastHeight = height;
+          postHeight(this.lastHeight);
+        }
+      }
+    };
+  }
+
+  start() {
+    this.observer = new ResizeObserver(this.onResize);
+    this.observer.observe(document.body);
+  }
+}
+
+export class DocumentBodyDimensionsPollingMonitor {
+  constructor() {
     this.lastHeight = -1;
     this.timer = undefined;
-    this.module = module;
 
     this.checkAndSchedule = () => {
       if (!this.monitoring) return;
@@ -40,18 +63,8 @@ export class DocumentBodyDimensionsMonitor {
     const height = document.body.clientHeight;
     if (height !== this.lastHeight) {
       this.lastHeight = height;
-      this.report();
+      postHeight(this.lastHeight);
     }
-  }
-
-  report() {
-    window.parent.postMessage(
-      {
-        type: "iframeSize",
-        height: this.lastHeight
-      },
-      "*"
-    );
   }
 
   /* Never used in the normal iframe embedding since everything stops
@@ -62,8 +75,22 @@ export class DocumentBodyDimensionsMonitor {
   }
 }
 
+function postHeight(height) {
+  window.parent.postMessage(
+    {
+      type: "iframeSize",
+      height
+    },
+    "*"
+  );
+}
+
 export const monitor = () => {
-  new DocumentBodyDimensionsMonitor().start();
+  if (typeof window.ResizeObserver !== "undefined") {
+    new DocumentBodyDimensionsResizeObserverMonitor().start();
+  } else {
+    new DocumentBodyDimensionsPollingMonitor().start();
+  }
 };
 
 import { Runtime, Inspector } from "@observablehq/runtime";
