@@ -91,21 +91,21 @@ window.addEventListener('unload', () => {{
   margin-right: 1px;
 }}
 .observable-logo svg {{
-  opacity: 50%;
+  opacity: 0.5;
   transition: opacity 0.2s;
 }}
 .observable-logo a {{
-  opacity: 0%;
+  opacity: 0;
   transition: opacity 0.2s;
   margin-right: .3em;
   color: inherit;
 }}
 .observable-logo:hover a {{
-  opacity: 100%;
+  opacity: 1;
   color: inherit;
 }}
 .observable-logo:hover svg {{
-  opacity: 100%;
+  opacity: 1;
 }}
 .observable-logo:hover ~ iframe {{
     outline: solid 1px #E0E0E0;
