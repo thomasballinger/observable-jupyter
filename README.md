@@ -1,4 +1,4 @@
-# observable-jupyter-embed
+# observable_jupyter
 <p align="center">
 
 <a href="https://pypi.python.org/pypi/observable_jupyter">
@@ -10,7 +10,7 @@ Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter 
 [View demo notebook on Colab](https://colab.research.google.com/drive/1Ca-IcVdwYdcKc3-RwRjo8UDfEYHpAfov)
 
 The following ways to view the demo notebook won't work until we make this repository public:
-* [Read example on nbviewer](https://nbviewer.jupyter.org/github/observablehq/observable_jupyter/blob/master/Observable_Embed_Example.ipynb)
+* [View example notebook with nbviewer](https://nbviewer.jupyter.org/github/observablehq/observable_jupyter/blob/master/Observable_Embed_Example.ipynb)
 * [Run example notebook on Binder]()
 * [Run example notebook on Colab](current notebook on collab is just a copy, not the one under version control here)
 
