@@ -6,8 +6,8 @@ with open("README.md") as readme_file:
     readme = readme_file.read()
 
 setup(
-    author="Thomas Ballinger",
-    author_email="ballingt@observablehq.com",
+    author="Observable, Inc.",
+    author_email="support@observablehq.com",
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

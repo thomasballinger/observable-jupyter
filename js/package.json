@@ -4,7 +4,7 @@
   "description": "Embedding Observable in an iframe for Jupyter",
   "main": "index.js",
   "repository": "https://github.com/observablehq/observable-jupyter-embed",
-  "author": "Thomas Ballinger",
+  "author": "Observable, Inc.",
   "license": "ISC",
   "private": true,
   "dependencies": {
