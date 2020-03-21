@@ -45,11 +45,16 @@ def edit_example(session):
 
 
 @nox.session(python="3.7")
-def jupyter_test(session):
+def jupyter_notebook_test(session):
     """Open the example Jupyter notebook with a dev install of this module"""
-    session.install("-e", ".", "Jupyter")
-    session.run("Jupyter", "notebook", "test_notebook.ipynb")
+    session.install("-e", ".", "jupyter")
+    session.run("jupyter", "notebook", "test_notebook.ipynb")
 
+@nox.session(python="3.7")
+def jupyter_lab_test(session):
+    """Open the example Jupyter notebook with a dev install of this module"""
+    session.install("-e", ".", "jupyterlab")
+    session.run("jupyter", "lab", "test_notebook.ipynb")
 
 @nox.session
 def cover(session):

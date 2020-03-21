@@ -89,38 +89,46 @@ window.addEventListener('unload', () => {{
   right: 0;
   margin-bottom: 5px;
   margin-right: 1px;
+  transition: background-color 0.2s;
 }}
 .observable-logo svg {{
   opacity: 0.5;
   transition: opacity 0.2s;
 }}
-.observable-logo a {{
+.observable-logo span {{
   opacity: 0;
   transition: opacity 0.2s;
-  margin-right: .3em;
-  color: inherit;
+  padding-right: .2em;
+  padding-left: .2em;
 }}
-.observable-logo:hover a {{
-  opacity: 1;
-  color: inherit;
+.observable-logo:hover {{
+  background-color: white;
+}}
+.observable-logo:hover span {{
+  opacity: .8;
 }}
 .observable-logo:hover svg {{
-  opacity: 1;
+  opacity: .8;
 }}
-.observable-logo:hover ~ iframe {{
-    outline: solid 1px #E0E0E0;
-    box-shadow: 0 0 3px;
-    transition: box-shadow 0.2s;
+.observable-link:hover ~ iframe {{
+  outline: solid 1px #E0E0E0;
+  box-shadow: 0 0 3px;
+  transition: box-shadow 0.2s;
 }}
-.observable-logo ~ iframe {{
+.observable-link ~ iframe {{
     outline: none;
 }}
-
+/* Colab-only rule - untested */
+body > .output-area > .output-body {{
+  margin-right: 2px;
+}}
 </style>
+<a class="observable-link" href="https://observablehq.com/{slug}" target="_blank" style="text-decoration: none; color: inherit;">
 <div class="observable-logo" style="display: flex; align-items: center; justify-content: flex-end;">
-<a href="https://observablehq.com/{slug}" target="_blank" style="text-decoration: none;">Edit {pretty_slug} on Observable</a>
+<span>Edit {pretty_slug} on Observable</span>
 {logo_src}
 </div>
+</a>
 """
         if display_logo
         else ""
