@@ -2,6 +2,6 @@
 
 __author__ = """Observable, Inc."""
 __email__ = "support@observablehq.com"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 from .jupyter_embed import embed
