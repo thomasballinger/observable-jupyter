@@ -21,8 +21,8 @@ with open("README.md") as readme_file:
 
 
 setup(
-    author="Observable, Inc.",
-    author_email="support@observablehq.com",
+    author="Thomas Ballinger",
+    author_email="me@ballingt.com",
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

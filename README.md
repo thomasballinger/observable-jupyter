@@ -1,10 +1,9 @@
 # observable_jupyter
-<p align="center">
 
+<p align="center">
 <a href="https://pypi.python.org/pypi/observable_jupyter">
     <img src="https://img.shields.io/pypi/v/observable_jupyter.svg" />
 </a>
-
 <a href="https://github.com/thomasballinger/observable-jupyter">
     <img src="https://img.shields.io/github/checks-status/thomasballinger/observable_jupyter/main"/>
 </a>
