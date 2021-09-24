@@ -6,8 +6,18 @@ nox.options.sessions = ["tests"]
 python = ["3.6", "3.7", "3.8", "3.9"]
 
 
-@nox.session(python=python)
+@nox.session(python="3.9")
 def tests(session):
+    session.install("-e", ".[test]", )
+    tests = session.posargs or ["tests"]
+    session.run(
+        "pytest",
+        *tests
+    )
+
+
+@nox.session(python=python)
+def tests_on_all_versions(session):
     session.install("-e", ".[test]", )
     tests = session.posargs or ["tests"]
     session.run(
@@ -18,8 +28,8 @@ def tests(session):
 
 @nox.session(python="3.9")
 def js_tests(session):
-    session.run("npm", "--cwd", "js", "install", external=True)
-    session.run("npm", "--cwd", "js", "test", external=True)
+    session.run("npm", "--prefix", "js", "--silent", "install", external=True)
+    session.run("npm", "--prefix", "js", "test", external=True)
 
 
 @nox.session(python="3.9")

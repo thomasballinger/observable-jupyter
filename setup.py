@@ -2,18 +2,33 @@
 
 from setuptools import setup, find_packages  # type: ignore
 from setuptools.command.sdist import sdist
+from setuptools.command.install import install
+from setuptools.command.develop import develop
 from shutil import which
 from subprocess import check_call
 
 
-class EnsureBundlesThenInstall(sdist):
-   def run(self):
-       if which("node") is None:
-           raise ValueError("Install node to create an sdist.")
-       print('Building JavaScript...')
-       check_call(['npm', 'install', '--silent', '--cwd', 'js'])
-       check_call(['npm', 'run', 'build', '--quiet', '--cwd', 'js'])
-       sdist.run(self)
+def build_js():
+    if which("node") is None:
+        raise ValueError("Install node to create an sdist.")
+    print('Building JavaScript...')
+    check_call(['npm', 'install', '--silent', '--prefix', 'js'])
+    check_call(['npm', 'run', 'build', '--quiet', '--prefix', 'js'])
+
+class BuildJsAndSdist(sdist):
+    def run(self):
+        build_js()
+        sdist.run(self)
+
+class BuildJSAndInstall(install):
+    def run(self):
+        build_js()
+        install.run(self)
+
+class BuildJSAndDevelop(develop):
+    def run(self):
+        build_js()
+        develop.run(self)
 
 
 with open("README.md") as readme_file:
@@ -39,7 +54,11 @@ setup(
     keywords="observable_jupyter",
     name="observable_jupyter",
     packages=find_packages(include=["observable_jupyter", "observable_jupyter.*"]),
-    cmdclass={'sdist': EnsureBundlesThenInstall},
+    cmdclass={
+        'sdist': BuildJsAndSdist,
+        'install': BuildJSAndInstall,
+        'develop': BuildJSAndDevelop,
+    },
     setup_requires=[],
     extras_require={
         'test': [
