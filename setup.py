@@ -6,6 +6,12 @@ from setuptools.command.install import install
 from setuptools.command.develop import develop
 from shutil import which
 from subprocess import check_call
+import re
+
+__version__ = re.search(
+    r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+    open('observable_jupyter/__init__.py', encoding='utf_8_sig').read()
+).group(1)
 
 
 def build_js():
@@ -72,6 +78,6 @@ setup(
         ]
     },
     url="https://github.com/observablehq/observable_jupyter",
-    version="0.1.7",
+    version=__version__,
     zip_safe=False,
 )

@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/pypi/v/observable_jupyter.svg" />
 </a>
 <a href="https://github.com/thomasballinger/observable-jupyter">
-    <img src="https://img.shields.io/github/checks-status/thomasballinger/observable_jupyter/main"/>
+    <img src="https://img.shields.io/github/checks-status/thomasballinger/observable-jupyter/main"/>
 </a>
 </p>
 
@@ -45,3 +45,8 @@ embed(
 This is an unofficial, but unlikely to break because it uses official embedding APIs, library for embedding Observable notebooks in Jupyter.
 The library was developed at Observable but is now maintained by Thomas Ballinger.
 All code added before Sept 2021 is copyright Observable.
+
+
+## Development
+
+Because this is a Python and JavaScript library, you'll need node as well as Python to contribute to it.
