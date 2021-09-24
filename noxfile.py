@@ -1,89 +1,53 @@
 import nox  # type: ignore
 from pathlib import Path
 
-nox.options.sessions = ["tests", "lint", "build"]
+nox.options.sessions = ["tests"]
 
-python = ["3.6", "3.7", "3.8"]
-
-
-lint_dependencies = [
-    "-e",
-    ".",
-    "black",
-    "flake8",
-    "flake8-bugbear",
-    "mypy",
-]
+python = ["3.6", "3.7", "3.8", "3.9"]
 
 
 @nox.session(python=python)
 def tests(session):
-    session.install("-e", ".", "pytest", "pytest-cov", "IPython")
+    session.install("-e", ".[test]", )
     tests = session.posargs or ["tests"]
     session.run(
         "pytest",
-        "--cov=observable_jupyter",
-        "--cov-config",
-        ".coveragerc",
-        "--cov-report=",
         *tests
     )
-    session.notify("cover")
 
 
-@nox.session()
+@nox.session(python="3.9")
 def js_tests(session):
-    session.run("yarn", "--cwd", "js")
-    session.run("yarn", "--cwd", "js", "test", external=True)
+    session.run("npm", "--cwd", "js", "install", external=True)
+    session.run("npm", "--cwd", "js", "test", external=True)
 
 
-@nox.session(python="3.7")
+@nox.session(python="3.9")
 def edit_example(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "Jupyter")
     session.run("Jupyter", "notebook", "Observable_Embed_Example.ipynb")
 
 
-@nox.session(python="3.7")
+@nox.session(python="3.9")
 def jupyter_notebook_test(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "jupyter")
     session.run("jupyter", "notebook", "test_notebook.ipynb")
 
-@nox.session(python="3.7")
+@nox.session(python="3.9")
 def jupyter_lab_test(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "jupyterlab")
     session.run("jupyter", "lab", "test_notebook.ipynb")
 
-@nox.session
-def cover(session):
-    """Coverage analysis"""
-    session.install("coverage")
-    session.run("coverage", "report", "--show-missing", "--fail-under=0")
-    session.run("coverage", "erase")
-
-
-@nox.session(python="3.7")
-def lint(session):
-    session.install(*lint_dependencies)
-    files = ["tests"] + [str(p) for p in Path(".").glob("*.py")]
-    session.run("black", "--check", *files)
-    session.run("flake8", *files)
-    session.run("mypy", *files)
-    session.run("python", "setup.py", "check", "--metadata", "--strict")
-
-
-@nox.session(python="3.7")
+@nox.session()
 def build(session):
     session.install("setuptools")
     session.install("wheel")
     session.install("twine")
     session.run("rm", "-rf", "dist", "build", external=True)
-    session.run("yarn", "--cwd", "js")
-    session.run("yarn", "--cwd", "js", "build", external=True)
     session.run("python", "setup.py", "--quiet", "sdist", "bdist_wheel")
-
 
 @nox.session(python="3.7")
 def publish(session):
