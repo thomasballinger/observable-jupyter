@@ -38,6 +38,6 @@ embed(
 
 ## About this library
 
-This is an unofficial, but [unlikely-to-break]() (it uses official embedding APIs) library for embedding Observable notebooks in Jupyter.
+This is an unofficial, but unlikely to break because it uses official embedding APIs, library for embedding Observable notebooks in Jupyter.
 The library was developed at Observable but is now maintained by Thomas Ballinger.
 All code added before Sept 2021 is copyright Observable.
