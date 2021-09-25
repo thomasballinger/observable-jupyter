@@ -17,22 +17,24 @@ __version__ = re.search(
 def build_js():
     if which("node") is None:
         raise ValueError("Install node to create an sdist.")
-    print('Building JavaScript...')
     check_call(['npm', 'install', '--silent', '--prefix', 'js'])
     check_call(['npm', 'run', 'build', '--quiet', '--prefix', 'js'])
 
 class BuildJsAndSdist(sdist):
     def run(self):
+        print('Building JavaScript as part of sdist...')
         build_js()
         sdist.run(self)
 
 class BuildJSAndInstall(install):
     def run(self):
+        print('Building JavaScript as part of install...')
         build_js()
         install.run(self)
 
 class BuildJSAndDevelop(develop):
     def run(self):
+        print('Building JavaScript as part of develop...')
         build_js()
         develop.run(self)
 

@@ -45,6 +45,9 @@ def embed(
             f"specify cell names as output or input, not both: {set(cells) & set(inputs)}"
         )
 
+    if slug.startswith("http"):
+        raise ValueError("notebook identifier looks like a url, please path a specifier like @observablehq/a-taste-of-observable or d/4575c6c14b706a4f")
+
     jsonified_inputs = jsonify(inputs or {})
 
     pretty_slug = "embedded notebook" if slug.startswith("d/") else slug

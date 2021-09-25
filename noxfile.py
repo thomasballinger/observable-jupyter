@@ -46,12 +46,13 @@ def jupyter_lab_test(session):
     session.install("-e", ".", "jupyterlab")
     session.run("jupyter", "lab", "test_notebook.ipynb")
 
-@nox.session(python=python)
+# there's not c extension, so we don't need a separate build per Python version!
+@nox.session(python="3.9")
 def build(session):
     session.install("setuptools")
     session.install("wheel")
     session.install("twine")
-    #session.run("rm", "-rf", "dist", "build", external=True)
+    session.run("rm", "-rf", "dist", "build", external=True)
     session.run("python", "setup.py", "--quiet", "sdist", "bdist_wheel")
 
 @nox.session(python="3.9")
