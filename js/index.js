@@ -107,7 +107,7 @@ export const embed = async (slug, into, cells, inputs = {}) => {
   const define = (await import(moduleUrl)).default;
   const inspect = Inspector.into(into);
   const filter = cells ? name => cells.includes(name) : name => true;
-  const main = new Runtime().module(define, name => filter(name) && inspect());
+  const main = new Runtime().module(define, name => filter(name) ? inspect() : true);
   for (let name of Object.keys(inputs)) {
     main.redefine(name, inputs[name]);
   }
