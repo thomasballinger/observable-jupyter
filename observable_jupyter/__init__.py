@@ -1,7 +1,7 @@
 """Top-level package for observable-jupyter-embed."""
 
-__author__ = """Observable, Inc."""
-__email__ = "support@observablehq.com"
-__version__ = "0.1.7"
+__author__ = """Thomas Ballinger"""
+__email__ = "me@ballingt.com"
+__version__ = "0.1.8"
 
 from .jupyter_embed import embed

@@ -5,7 +5,6 @@ nox.options.sessions = ["tests"]
 
 python = ["3.6", "3.7", "3.8", "3.9"]
 
-
 @nox.session(python="3.9")
 def tests(session):
     session.install("-e", ".[test]", )
@@ -14,7 +13,6 @@ def tests(session):
         "pytest",
         *tests
     )
-
 
 @nox.session(python=python)
 def tests_on_all_versions(session):
@@ -25,19 +23,16 @@ def tests_on_all_versions(session):
         *tests
     )
 
-
 @nox.session(python="3.9")
 def js_tests(session):
     session.run("npm", "--prefix", "js", "--silent", "install", external=True)
     session.run("npm", "--prefix", "js", "test", external=True)
-
 
 @nox.session(python="3.9")
 def edit_example(session):
     """Open the example Jupyter notebook with a dev install of this module"""
     session.install("-e", ".", "Jupyter")
     session.run("Jupyter", "notebook", "Observable_Embed_Example.ipynb")
-
 
 @nox.session(python="3.9")
 def jupyter_notebook_test(session):
@@ -51,15 +46,15 @@ def jupyter_lab_test(session):
     session.install("-e", ".", "jupyterlab")
     session.run("jupyter", "lab", "test_notebook.ipynb")
 
-@nox.session()
+@nox.session(python=python)
 def build(session):
     session.install("setuptools")
     session.install("wheel")
     session.install("twine")
-    session.run("rm", "-rf", "dist", "build", external=True)
+    #session.run("rm", "-rf", "dist", "build", external=True)
     session.run("python", "setup.py", "--quiet", "sdist", "bdist_wheel")
 
-@nox.session(python="3.7")
+@nox.session(python="3.9")
 def publish(session):
     build(session)
     print("REMINDER: Has the changelog been updated?")
