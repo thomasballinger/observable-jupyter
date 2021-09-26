@@ -12,7 +12,7 @@ This HTML and some of this JavaScript is defined inline in the embed() function 
 
 The iframe created by that code has its `.srcdoc` property set to a string which includes JavaScript defined in [js/index.js](./js/index.js) via the rollup bundle "iframe_bundle.js" This JavaScript is substantial, at about 100KB: it includes code that requests the notebook from observablehq.com and directly includes some [open source Observable runtime libraries](https://github.com/observablehq/runtime) required to run a notebook.
 
-Because this notebook code is requested from observablehq.com when the embed function is run, just viewing a notebook with this output does not require an internet connection. However executing the cell always does: the code is re-requested from observablehq each time.
+Because this notebook code is requested from observablehq.com each time the Jupyter notebooks is viewed in a browser, refreshing the browser page is enough to update a Jupyter notebook with a new version of the notebook. This also means that viewing an Observable cell always requires an internet connection.
 
 ```
 +Jupyter in the users's web browser==========+
