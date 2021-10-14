@@ -2,7 +2,6 @@
 
 from setuptools import setup, find_packages  # type: ignore
 from setuptools.command.sdist import sdist
-from setuptools.command.install import install
 from setuptools.command.develop import develop
 from shutil import which
 from subprocess import check_call
@@ -25,12 +24,6 @@ class BuildJsAndSdist(sdist):
         print('Building JavaScript as part of sdist...')
         build_js()
         sdist.run(self)
-
-class BuildJSAndInstall(install):
-    def run(self):
-        print('Building JavaScript as part of install...')
-        build_js()
-        install.run(self)
 
 class BuildJSAndDevelop(develop):
     def run(self):
@@ -64,7 +57,6 @@ setup(
     packages=find_packages(include=["observable_jupyter", "observable_jupyter.*"]),
     cmdclass={
         'sdist': BuildJsAndSdist,
-        'install': BuildJSAndInstall,
         'develop': BuildJSAndDevelop,
     },
     setup_requires=[],

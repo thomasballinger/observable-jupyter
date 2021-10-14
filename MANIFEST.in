@@ -1,7 +1,7 @@
 graft observable_jupyter
 include *.md LICENSE
 
-include *.ipynb
+#include *.ipynb
 include *.py
 exclude noxfile.py
 global-exclude *.py[cod]
