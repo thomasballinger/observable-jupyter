@@ -42,12 +42,13 @@ embed(
 
 Embedding specific cells with the cell keyword parameter of `embed([])` causes only these cells to be shown, but every cell still runs.
 
-At the time of writing, this behavior is different than the Observable embed default.
+This behavior is slightly different than the Observable embed default.
 
 ## About this library
 
-This is an unofficial library for embedding Observable notebooks in Jupyter.
-The library was developed at Observable but is now maintained by Thomas Ballinger.
+This library uses the APIs provided by [Observable](https://observablehq.com) to embed notebooks hosted on Observable in Jupyter.
+
+The library was [developed at Observable](https://github.com/observablehq/observable-jupyter) but is now maintained by Thomas Ballinger.
 All code added before Sept 2021 is copyright Observable.
 
 ## Development
