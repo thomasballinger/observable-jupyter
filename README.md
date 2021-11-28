@@ -1,17 +1,12 @@
 # observable_jupyter
 
-<p align="center">
-<a href="https://pypi.python.org/pypi/observable_jupyter">
-    <img src="https://img.shields.io/pypi/v/observable_jupyter.svg" />
-</a>
-<a href="https://github.com/thomasballinger/observable-jupyter">
-    <img src="https://img.shields.io/github/checks-status/thomasballinger/observable-jupyter/main"/>
-</a>
-</p>
-
 Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter notebooks.
 
 [View demo notebook on Colab](https://colab.research.google.com/drive/1t_wcE-NqoPO-dpnrB9VMQ0KUxR5e1rML?usp=sharing)
+
+This library provides a simple way to embed cells and pass custom inputs values to them from Python code. For more complicated data flow in Jupyter notebooks, see the related library [observablehttps://github.com/thomasballinger/observable-jupyter-widget which uses the Jupyter Widget system to pass data back and forth between Python and JavaScript.
+
+# Usage
 
 To install the library, import the embed function, and embed the "graphic" cell from [this Observable notebook](https://observablehq.com/@mbostock/epicyclic-gearing):
 ~~~py
