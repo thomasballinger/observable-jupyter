@@ -4,7 +4,7 @@ Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter 
 
 [View demo notebook on Colab](https://colab.research.google.com/drive/1t_wcE-NqoPO-dpnrB9VMQ0KUxR5e1rML?usp=sharing)
 
-This library provides a simple way to embed cells and pass custom inputs values to them from Python code. For more complicated data flow in Jupyter notebooks, see the related library [observablehttps://github.com/thomasballinger/observable-jupyter-widget which uses the Jupyter Widget system to pass data back and forth between Python and JavaScript.
+This library provides a simple way to embed cells and pass custom inputs values to them from Python code. For more complicated data flow in Jupyter notebooks, see the related library [observable-jupyter-widget](https://github.com/thomasballinger/observable-jupyter-widget) which uses the Jupyter Widget system to pass data back and forth between Python and JavaScript.
 
 # Usage
 
