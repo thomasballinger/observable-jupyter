@@ -1,4 +1,4 @@
-# observable_jupyter
+# observable-jupyter
 
 Embed cells from [Observable](https://observablehq.com/) notebooks into Jupyter notebooks.
 
