@@ -60,3 +60,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# docs
+build
