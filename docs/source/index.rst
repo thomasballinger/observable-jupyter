@@ -7,7 +7,7 @@
 Observable-Jupyter Documentation
 ================================
 
-Observable-Jupyter is a Python library that allows individuals to quickly create powerful yet simple interactive 
+Observable-Jupyter is a Python library that allows you to quickly create powerful yet simple interactive 
 data visualizations.
 
 .. Note::
