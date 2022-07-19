@@ -4,3 +4,4 @@ nbsphinx
 sphinx-copybutton
 sphinx_gallery
 sphinx-design
+sphinx-rtd-theme
