@@ -7,31 +7,25 @@
 Observable-Jupyter Documentation
 ================================
 
-Observable-Jupyter is a Python library for quickly creating powerful yet simple interactive 
-data visualizations.
-
-.. Note::
-   Never heard of Observable? Read the :doc:`Understanding_the_Observable_in_OJ` section to learn more.	
-
-Getting Started
-===============
-
-Get started by checking out our most popular visualizations:
+Observable-Jupyter is a Python library for quickly creating powerful yet simple interactive data visualizations.
 
 .. card::
 
-   Popular Visualizations
+   **Popular Visualizations**
    ^^^
    
    ..  nbgallery::
+       :hidden:
        :caption: Popular Visualizations:
        :name: Popular-gallery
        :glob:
-       :reversed:
 
+       Brushable_scatterplot
+       PixelValue_Intensity_Histogram
+       Leaflet_US_Choropleth
+       Timeseries_Dashboard
        Bar_Chart_Race
        World_Choroplath_Map
-       Brushable_scatterplot
 
    .. Note::
       Find More Visualizations on the :doc:`Visualization_Library` section.
@@ -53,6 +47,9 @@ Observable-Jupyter at a Glance
    **Configurable**
         Visualizations can be configured using Python.
 
+.. Note::
+   Never heard of Observable? Read the :doc:`Understanding_the_Observable_in_OJ` section to learn more.	
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
@@ -61,6 +58,5 @@ Observable-Jupyter at a Glance
    Installation
    Embedding_cells
    Using_your_own_data
-   Tutorial
    Visualization_Library
    Acknowledgement

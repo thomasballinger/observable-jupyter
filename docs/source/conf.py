@@ -70,6 +70,8 @@ nbsphinx_thumbnails = {
 	'Brushable_scatterplot': 'Images/Thumbnails/Brushable_ScatterPlot_Matrix.png',
 	'Scatterplot_Matrix': 'Images/Thumbnails/ScatterPlot_Matrix.png',
 	'Summary_Table': 'Images/Thumbnails/Summary_Table.png',
-	'PixelValue_Intensity_Histogram': 'Images/Thumbnails/PixelValue_Intensity_Histogram.png'
+	'PixelValue_Intensity_Histogram': 'Images/Thumbnails/PixelValue_Intensity_Histogram.png',
+	'Leaflet_US_Choropleth': 'Images/Thumbnails/Leaflet_US_Choropleth.png',
+	'Timeseries_Dashboard' : 'Images/Thumbnails/Timeseries_Dashboard.png',
 	}
 
