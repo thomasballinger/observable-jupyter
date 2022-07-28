@@ -48,6 +48,7 @@ Maps are made easy with observable
    :reversed:
 
    World_Choroplath_Map
+   Leaflet_US_Choropleth
 
 Analysis
 --------
@@ -65,3 +66,4 @@ Your standard Analysis tools such as bar charts, scatter plots, histograms and m
    Variable_Regression
    Faceting_Linear_Regression
    Summary_Table
+   Timeseries_Dashboard
