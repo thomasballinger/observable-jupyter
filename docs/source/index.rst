@@ -59,4 +59,5 @@ Observable-Jupyter at a Glance
    Embedding_cells
    Using_your_own_data
    Visualization_Library
+   Contribute
    Acknowledgement
