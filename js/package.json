@@ -8,7 +8,7 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "@observablehq/runtime": "^4.21.1"
+    "@observablehq/runtime": "^4.25.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^7.1.1",
