@@ -11,7 +11,7 @@ from typing import List, Dict
 iframe_bundle_fname = pkg_resources.resource_filename(
     "observable_jupyter", "iframe_bundle.js"
 )
-iframe_bundle_src = open(iframe_bundle_fname).read()
+iframe_bundle_src = open(iframe_bundle_fname, encoding = 'utf-8').read()
 wrapper_bundle_fname = pkg_resources.resource_filename(
     "observable_jupyter", "wrapper_bundle.js"
 )
